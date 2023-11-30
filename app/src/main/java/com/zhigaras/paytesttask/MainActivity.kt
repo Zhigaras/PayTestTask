@@ -12,8 +12,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         
         val navigation by inject<Navigation>()
+        navigation.setUpNavigation(supportFragmentManager, R.id.container)
         
         if (savedInstanceState == null)
-            navigation.goTo(supportFragmentManager, LoginFragment::class.java)
+            navigation.goTo(LoginFragment::class.java)
     }
 }
