@@ -31,14 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = Config.jvmTarget
     }
+    buildFeatures { viewBinding = true }
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":cloudService"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.koin.android)
 }
