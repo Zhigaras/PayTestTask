@@ -3,7 +3,7 @@ package com.zhigaras.paytesttask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.zhigaras.core.NavigationImpl
-import com.zhigaras.login.LoginFragment
+import com.zhigaras.login.ui.LoginFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

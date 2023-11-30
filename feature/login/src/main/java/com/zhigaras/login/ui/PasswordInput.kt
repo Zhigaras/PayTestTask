@@ -1,8 +1,9 @@
-package com.zhigaras.login
+package com.zhigaras.login.ui
 
 import android.content.Context
 import android.util.AttributeSet
 import com.zhigaras.core.AbstractInputLayout
+import com.zhigaras.login.R
 
 class PasswordInput @JvmOverloads constructor(
     context: Context,

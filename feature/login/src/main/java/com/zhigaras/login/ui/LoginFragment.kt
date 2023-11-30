@@ -1,4 +1,4 @@
-package com.zhigaras.login
+package com.zhigaras.login.ui
 
 import android.view.LayoutInflater
 import com.zhigaras.core.BaseFragment
