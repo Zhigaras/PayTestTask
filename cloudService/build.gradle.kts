@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.zhigaras.cloudservice"
-    compileSdk = 34
+    compileSdk = Config.compileSdk
     
     defaultConfig {
-        minSdk = 24
+        minSdk = Config.minSdk
         
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testInstrumentationRunner
         consumerProguardFiles("consumer-rules.pro")
     }
     
@@ -25,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Config.jvmTarget
     }
 }
 
