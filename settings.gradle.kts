@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "PayTestTask"
 include(":app")
- 
+include(":cloudService")
+include(":tokenStorage")
