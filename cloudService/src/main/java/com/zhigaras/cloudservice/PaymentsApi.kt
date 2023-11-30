@@ -14,4 +14,8 @@ interface PaymentsApi {
     
     @GET("/payments")
     suspend fun getPayments(): PaymentsResponse
+    
+    companion object {
+        const val BASE_URL = "https://easypay.world/api-test/"
+    }
 }
