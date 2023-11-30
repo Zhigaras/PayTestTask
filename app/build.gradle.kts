@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":feature:login"))
     
     implementation(libs.androidx.ktx)
