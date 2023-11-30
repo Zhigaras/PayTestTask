@@ -36,10 +36,12 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":cloudService"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.koin.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
