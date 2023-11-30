@@ -4,7 +4,7 @@ interface TokenStorage {
     
     fun save(token: String)
     
-    fun getToken(): String
+    fun getToken(): Token
     
     fun isLoggedIn(): Boolean
 }

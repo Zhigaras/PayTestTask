@@ -1,5 +1,5 @@
 package com.zhigaras.cloudservice.model
 
-data class Token(
+class Token(
     val token: String
 )

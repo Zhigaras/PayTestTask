@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":tokenStorage"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.retrofit)

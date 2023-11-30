@@ -5,7 +5,7 @@ import com.zhigaras.cloudservice.model.PaymentsResponse
 
 interface CloudService {
     
-    fun login(): LoginResponse
+    suspend fun login(login: String, password: String): LoginResponse
     
-    fun getPayments(): PaymentsResponse
+    suspend fun getPayments(): PaymentsResponse
 }

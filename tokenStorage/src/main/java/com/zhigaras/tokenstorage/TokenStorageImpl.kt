@@ -8,12 +8,13 @@ class TokenStorageImpl(private val prefs: SharedPreferences) : TokenStorage {
         prefs.edit().putString(TOKEN_KEY, token).apply()
     }
     
-    override fun getToken(): String {
-        return prefs.getString(TOKEN_KEY, "") ?: ""
+    override fun getToken(): Token {
+        val token = prefs.getString(TOKEN_KEY, "")
+        return if (token == "" || token == null) Token.Empty() else Token.Base(token)
     }
     
     override fun isLoggedIn(): Boolean {
-        return getToken() != ""
+        return getToken().isNotEmpty()
     }
     
     companion object {

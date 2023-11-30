@@ -10,8 +10,8 @@ import retrofit2.http.POST
 interface PaymentsApi {
     
     @POST("/login")
-    fun login(@Body loginRequest: LoginRequest): LoginResponse
+    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
     
     @GET("/payments")
-    fun getPayments(): PaymentsResponse
+    suspend fun getPayments(): PaymentsResponse
 }
