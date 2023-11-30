@@ -16,5 +16,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
+        val inputFields = listOf(binding.loginInput, binding.passwordInput)
+        
+        binding.enterButton.setOnClickListener {
+            val isValid = inputFields.map { it.isValid() }.all { it }
+            if (isValid) viewModel.login(binding.loginInput.text(), binding.passwordInput.text())
+        }
+        
+        viewModel.scopeCollect {
+            it.update(binding)
+        }
     }
 }

@@ -1,21 +1,16 @@
 package com.zhigaras.core
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
 
 interface Navigation {
     
-    fun goTo(
-        fragmentManager: FragmentManager,
-        fragment: Class<out BaseFragment<*>>,
-        args: Bundle? = null
-    )
+    fun setUpNavigation(fragmentManager: FragmentManager, @IdRes container: Int)
     
-    fun goAndAddToBackStack(
-        fragmentManager: FragmentManager,
-        fragment: Class<out BaseFragment<*>>,
-        args: Bundle? = null
-    )
+    fun goTo(fragment: Class<out BaseFragment<*>>, args: Bundle? = null)
     
-    fun goToStart(fragmentManager: FragmentManager)
+    fun goAndAddToBackStack(fragment: Class<out BaseFragment<*>>, args: Bundle? = null)
+    
+    fun goToStart()
 }

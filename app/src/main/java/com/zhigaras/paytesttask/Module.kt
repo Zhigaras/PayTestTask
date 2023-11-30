@@ -10,5 +10,5 @@ fun mainModule() = module {
     
     factory { Dispatchers.Base() } bind Dispatchers::class
     
-    factory { NavigationImpl(R.id.container) } bind Navigation::class
+    single { NavigationImpl() } bind Navigation::class
 }
