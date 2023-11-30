@@ -17,4 +17,5 @@ rootProject.name = "PayTestTask"
 include(":app")
 include(":cloudService")
 include(":tokenStorage")
+include(":core")
 include(":feature:login")
