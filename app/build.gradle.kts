@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:login"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)

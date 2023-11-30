@@ -31,9 +31,11 @@ android {
     kotlinOptions {
         jvmTarget = Config.jvmTarget
     }
+    buildFeatures { viewBinding = true }
 }
 
 dependencies {
+    implementation(project(":core"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
