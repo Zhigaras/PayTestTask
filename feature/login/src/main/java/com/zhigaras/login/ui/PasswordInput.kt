@@ -14,6 +14,6 @@ class PasswordInput @JvmOverloads constructor(
     override val errorMessageId: Int = R.string.password_input_error
     
     override fun innerIsValid(): Boolean {
-        return text().length > 5
+        return text().length > 4
     }
 }
