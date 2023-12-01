@@ -1,3 +1,4 @@
 <resources>
     <string name="amount_stub">Processing</string>
+    <string name="date_stub">Unknown date</string>
 </resources>
