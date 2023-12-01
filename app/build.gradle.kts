@@ -34,11 +34,14 @@ android {
     kotlinOptions {
         jvmTarget = Config.jvmTarget
     }
+    buildFeatures { viewBinding = true }
 }
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":tokenStorage"))
     implementation(project(":feature:login"))
+    implementation(project(":feature:payments"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)

@@ -6,8 +6,10 @@ import com.zhigaras.core.Navigation
 import com.zhigaras.login.domain.LoginFlowWrapper
 import com.zhigaras.login.domain.LoginInteractor
 import com.zhigaras.login.domain.LoginUiState
+import com.zhigaras.tokenstorage.TokenStorage
 
 class LoginViewModel(
+    private val tokenStorage: TokenStorage,
     private val navigation: Navigation,
     private val interactor: LoginInteractor,
     override val flowWrapper: LoginFlowWrapper.Mutable,
@@ -18,7 +20,7 @@ class LoginViewModel(
         flowWrapper.post(LoginUiState.Loading())
         scopeLaunch(
             onBackground = { interactor.login(login, password) },
-            onUi = { it.handle(flowWrapper, navigation) }
+            onUi = { it.handle(flowWrapper, navigation, tokenStorage) }
         )
     }
 }

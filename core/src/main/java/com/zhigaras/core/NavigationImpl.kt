@@ -1,17 +1,15 @@
 package com.zhigaras.core
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
-import kotlin.properties.Delegates
 
-class NavigationImpl : Navigation {
+class NavigationImpl(@IdRes private val container: Int) : Navigation {
     
     private lateinit var fragmentManager: FragmentManager
-    private var container by Delegates.notNull<Int>()
     
-    override fun setUpNavigation(fragmentManager: FragmentManager, container: Int) {
+    override fun setUpNavigation(fragmentManager: FragmentManager) {
         this.fragmentManager = fragmentManager
-        this.container = container
     }
     
     override fun goTo(fragment: Class<out BaseFragment<*>>, args: Bundle?) {
