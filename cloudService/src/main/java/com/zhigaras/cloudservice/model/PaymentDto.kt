@@ -4,5 +4,5 @@ class PaymentDto(
     val id: Int,
     val title: String,
     val amount: String? = null,
-    val created: Long? = null
+    val created: Int? = null
 )

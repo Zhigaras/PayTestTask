@@ -31,15 +31,13 @@ interface PaymentsInteractor {
         
         private fun processList(source: List<PaymentDomain>): List<PaymentUi<*>> {
             val grouped = source.groupBy { it.isTimeStampKnown() }
-            val sortedPart = grouped[true].orEmpty()
-                .map { it as PaymentDomain.CorrectTimeStamp }
-                .sortedBy { it.created }
+            val firstPart = grouped[true].orEmpty()
             val result = mutableListOf<PaymentUi<*>>()
-            var bufferedPayment: PaymentDomain.CorrectTimeStamp? = null
-            sortedPart.forEach { payment ->
+            var bufferedPayment: PaymentDomain? = null
+            firstPart.forEach { payment ->
                 if (payment.isNextDay(bufferedPayment)) {
                     bufferedPayment = payment
-                    result.add(PaymentUi.Divider(payment.formattedDay()))
+                    result.add(PaymentUi.Divider(payment.formattedDay(resources)))
                 }
                 result.add(PaymentUi.Base(payment))
             }

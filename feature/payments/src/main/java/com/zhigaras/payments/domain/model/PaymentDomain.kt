@@ -1,7 +1,9 @@
 package com.zhigaras.payments.domain.model
 
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.zhigaras.cloudservice.model.PaymentDto
+import com.zhigaras.core.ManageResources
 import com.zhigaras.core.formatPrice
 import com.zhigaras.payments.R
 import com.zhigaras.payments.databinding.BasePaymentItemBinding
@@ -10,104 +12,89 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-abstract class PaymentDomain {
+class PaymentDomain(
+    private val id: Int,
+    private val title: String,
+    private val amount: Amount,
+    private val created: Created
+) {
     
-    protected abstract val id: Int
-    protected abstract val title: String
+    fun isTimeStampKnown() = created.isTimeStampKnown()
     
-    abstract fun isTimeStampKnown(): Boolean
-    abstract fun bind(binding: BasePaymentItemBinding)
+    fun isNextDay(prevPayment: PaymentDomain?): Boolean {
+        if (prevPayment == null) return true
+        return created.isNextDay(prevPayment.created)
+    }
+    
+    fun bind(binding: BasePaymentItemBinding) = with(binding) {
+        titleTextview.text = title
+        amount.bind(amountTextview)
+    }
     
     fun areItemsTheSame(other: PaymentDomain) = id == other.id
     
-    fun areContentTheSame(other: PaymentDomain) = id == other.id && title == other.title
-    
-    abstract class CorrectTimeStamp : PaymentDomain() {
-        
-        abstract val created: Long
-        private val formatter = DateTimeFormatter.ofPattern("dd MMM, EE")
-        override fun isTimeStampKnown() = true
-        
-        fun formattedDay(): String = formatter.format(localDateTime())
-        
-        private fun localDateTime() = LocalDateTime
-            .ofEpochSecond(created, 0, OffsetDateTime.now().offset)
-        
-        fun isNextDay(prevPayment: CorrectTimeStamp?): Boolean {
-            if (prevPayment == null) return true
-            return localDateTime().truncatedTo(ChronoUnit.DAYS).isAfter(prevPayment.localDateTime())
-        }
-    }
-    
-    class Base(
-        override val id: Int,
-        override val title: String,
-        override val created: Long,
-        private val amount: Double
-    ) : CorrectTimeStamp() {
-        override fun bind(binding: BasePaymentItemBinding): Unit = with(binding) {
-            titleTextview.text = title
-            amountTextview.apply {
-                text = root.context.getString(R.string.payment_amount, amount.formatPrice())
-                setTextColor(ResourcesCompat.getColor(root.resources, R.color.red10, null))
-            }
-        }
-    }
-    
-    class UnknownAmount(
-        override val id: Int,
-        override val title: String,
-        override val created: Long
-    ) : CorrectTimeStamp() {
-        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
-            titleTextview.text = title
-            amountTextview.text = root.context.getText(R.string.amount_stub)
-        }
-    }
-    
-    abstract class IncorrectTimestamp : PaymentDomain() {
-        override fun isTimeStampKnown() = false
-    }
-    
-    class UnknownTimeStamp(
-        override val id: Int,
-        override val title: String,
-        private val amount: Double,
-    ) : IncorrectTimestamp() {
-        override fun bind(binding: BasePaymentItemBinding): Unit = with(binding) {
-            titleTextview.text = title
-            amountTextview.apply {
-                text = root.context.getString(R.string.payment_amount, amount.formatPrice())
-                setTextColor(ResourcesCompat.getColor(root.resources, R.color.red10, null))
-            }
-        }
-    }
-    
-    class UnknownTimeStampAndAmount(
-        override val id: Int,
-        override val title: String,
-    ) : IncorrectTimestamp() {
-        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
-            titleTextview.text = title
-            amountTextview.text = root.context.getText(R.string.amount_stub)
-        }
-    }
+    fun formattedDay(resources: ManageResources) = created.formattedDay(resources)
     
     companion object {
         fun fromDto(dto: PaymentDto): PaymentDomain {
-            return if (dto.created == null) {
-                if (dto.amount == null || dto.amount == "") {
-                    UnknownTimeStampAndAmount(dto.id, dto.title)
-                } else {
-                    UnknownTimeStamp(dto.id, dto.title, dto.amount!!.toDouble())
-                }
-            } else {
-                if (dto.amount == null || dto.amount == "") {
-                    UnknownAmount(dto.id, dto.title, dto.created!!)
-                } else {
-                    Base(dto.id, dto.title, dto.created!!, dto.amount!!.toDouble())
-                }
-            }
+            val created = if (dto.created == null) Created.Empty() else Created.Base(dto.created!!)
+            val amount =
+                if (dto.amount == null || dto.amount == "") Amount.Empty()
+                else Amount.Base(dto.amount!!.toDouble())
+            return PaymentDomain(dto.id, dto.title, amount, created)
+        }
+    }
+}
+
+interface Created {
+    
+    fun isTimeStampKnown(): Boolean
+    
+    fun isNextDay(prevCreated: Created): Boolean
+    
+    fun formattedDay(resources: ManageResources): String
+    
+    class Base(timeStamp: Int) : Created {
+        
+        private val formatter = DateTimeFormatter.ofPattern("dd MMM, EE")
+        private val localDateTime = LocalDateTime
+            .ofEpochSecond(timeStamp.toLong(), 0, OffsetDateTime.now().offset)
+        
+        override fun isTimeStampKnown() = true
+        
+        override fun isNextDay(prevCreated: Created): Boolean {
+            if (prevCreated !is Base) return false
+            return localDateTime.truncatedTo(ChronoUnit.DAYS).isAfter(prevCreated.localDateTime)
+        }
+        
+        override fun formattedDay(resources: ManageResources): String =
+            formatter.format(localDateTime)
+    }
+    
+    class Empty : Created {
+        override fun isTimeStampKnown() = false
+        override fun isNextDay(prevCreated: Created) = false
+        override fun formattedDay(resources: ManageResources) =
+            resources.getString(R.string.date_stub)
+        
+    }
+}
+
+interface Amount {
+    
+    fun bind(textView: TextView)
+    
+    class Base(private val amount: Double) : Amount {
+        
+        override fun bind(textView: TextView) = with(textView) {
+            text = context.getString(R.string.payment_amount, amount.formatPrice())
+            setTextColor(ResourcesCompat.getColor(resources, R.color.red10, null))
+        }
+    }
+    
+    class Empty : Amount {
+        override fun bind(textView: TextView) = with(textView) {
+            text = context.getText(R.string.amount_stub)
         }
     }
 }
