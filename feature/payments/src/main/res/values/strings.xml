@@ -2,4 +2,5 @@
     <string name="amount_stub">Processing</string>
     <string name="date_stub">Unknown date</string>
     <string name="payment_amount" translatable="false">%1$s ₽</string>
+    <string name="total">Total</string>
 </resources>

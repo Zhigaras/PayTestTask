@@ -22,8 +22,8 @@
 
     <TextView
         android:id="@+id/amount_textview"
+        style="@style/Amount"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="22sp" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

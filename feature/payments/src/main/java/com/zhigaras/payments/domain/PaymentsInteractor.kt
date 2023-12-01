@@ -22,7 +22,7 @@ interface PaymentsInteractor {
         override suspend fun getPayments(): PaymentsUiState {
             return try {
                 val source = repository.getPayments()
-                PaymentsUiState.Success(processList(source))
+                PaymentsUiState.Success(processList(source), source.sumOf { it.amount.amount() })
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 PaymentsUiState.Error(e.message ?: "Unknown error")

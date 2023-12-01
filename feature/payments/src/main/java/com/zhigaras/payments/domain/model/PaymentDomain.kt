@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit
 class PaymentDomain(
     private val id: Int,
     private val title: String,
-    private val amount: Amount,
+    val amount: Amount,
     private val created: Created
 ) {
     
@@ -82,9 +82,12 @@ interface Created {
 
 interface Amount {
     
+    fun amount(): Double
+    
     fun bind(textView: TextView)
     
     class Base(private val amount: Double) : Amount {
+        override fun amount() = amount
         
         override fun bind(textView: TextView) = with(textView) {
             text = context.getString(R.string.payment_amount, amount.formatPrice())
@@ -93,6 +96,8 @@ interface Amount {
     }
     
     class Empty : Amount {
+        override fun amount() = 0.0
+        
         override fun bind(textView: TextView) = with(textView) {
             text = context.getText(R.string.amount_stub)
         }
