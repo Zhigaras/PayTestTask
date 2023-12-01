@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 
 class TokenStorageImpl(private val prefs: SharedPreferences) : TokenStorage {
     
+    // TODO: replace with encryptedSharedPrefs
+    
     override fun save(token: String) {
         prefs.edit().putString(TOKEN_KEY, token).apply()
     }

@@ -14,6 +14,14 @@ class PaymentsViewModel(
     dispatchers: Dispatchers
 ) : BaseViewModel<PaymentsUiState>(dispatchers) {
     
+    fun loadPayments() {
+        flowWrapper.post(PaymentsUiState.Loading())
+        scopeLaunch(
+            onBackground = { interactor.getPayments() },
+            onUi = { flowWrapper.post(PaymentsUiState.Success()) }
+        )
+    }
+    
     fun logout() {
         interactor.logout()
         navigation.fromPaymentsToLogin()

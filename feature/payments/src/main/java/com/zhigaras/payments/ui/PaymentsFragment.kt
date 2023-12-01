@@ -16,6 +16,6 @@ class PaymentsFragment : BaseFragment<FragmentPaymentsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        binding.logoutButton.setOnClickListener { viewModel.logout() }
+        binding.logoutButton.setOnClickListener { viewModel.loadPayments() }
     }
 }

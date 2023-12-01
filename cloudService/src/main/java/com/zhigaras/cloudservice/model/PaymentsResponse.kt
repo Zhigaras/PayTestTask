@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class PaymentsResponse(
     @SerializedName("response")
-    val payments: List<Payment>,
+    val payments: List<PaymentDto>,
     val success: String
 )
