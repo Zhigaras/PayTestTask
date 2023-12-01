@@ -25,10 +25,13 @@ class NavigationImpl(@IdRes private val container: Int) : Navigation {
             .commit()
     }
     
-    override fun goToStart() {
+    override fun goAndClearBackStack(fragment: Class<out BaseFragment<*>>, args: Bundle?) {
         if (fragmentManager.backStackEntryCount > 0) {
             val first = fragmentManager.getBackStackEntryAt(0)
             fragmentManager.popBackStack(first.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
+        fragmentManager.beginTransaction()
+            .replace(container, fragment, args)
+            .commit()
     }
 }

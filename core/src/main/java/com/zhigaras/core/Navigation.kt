@@ -11,5 +11,5 @@ interface Navigation {
     
     fun goAndAddToBackStack(fragment: Class<out BaseFragment<*>>, args: Bundle? = null)
     
-    fun goToStart()
+    fun goAndClearBackStack(fragment: Class<out BaseFragment<*>>, args: Bundle? = null)
 }

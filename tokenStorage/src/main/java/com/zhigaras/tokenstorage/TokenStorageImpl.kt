@@ -17,6 +17,10 @@ class TokenStorageImpl(private val prefs: SharedPreferences) : TokenStorage {
         return getToken().isNotEmpty()
     }
     
+    override fun removeToken() {
+        prefs.edit().remove(TOKEN_KEY).apply()
+    }
+    
     companion object {
         private const val TOKEN_KEY = "tokenKey"
     }
