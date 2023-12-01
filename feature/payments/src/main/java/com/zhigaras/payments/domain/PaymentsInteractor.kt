@@ -36,7 +36,7 @@ interface PaymentsInteractor {
                 .sortedBy { it.created }
             val result = mutableListOf<PaymentUi<*>>()
             var bufferedPayment: PaymentDomain.CorrectTimeStamp? = null
-            sortedPart.forEachIndexed { index, payment ->
+            sortedPart.forEach { payment ->
                 if (payment.isNextDay(bufferedPayment)) {
                     bufferedPayment = payment
                     result.add(PaymentUi.Divider(payment.formattedDay()))

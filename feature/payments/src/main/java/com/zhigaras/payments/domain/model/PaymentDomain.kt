@@ -1,6 +1,8 @@
 package com.zhigaras.payments.domain.model
 
+import androidx.core.content.res.ResourcesCompat
 import com.zhigaras.cloudservice.model.PaymentDto
+import com.zhigaras.core.formatPrice
 import com.zhigaras.payments.R
 import com.zhigaras.payments.databinding.BasePaymentItemBinding
 import java.time.LocalDateTime
@@ -41,11 +43,14 @@ abstract class PaymentDomain {
         override val id: Int,
         override val title: String,
         override val created: Long,
-        private val amount: String
+        private val amount: Double
     ) : CorrectTimeStamp() {
-        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
+        override fun bind(binding: BasePaymentItemBinding): Unit = with(binding) {
             titleTextview.text = title
-            amountTextview.text = amount
+            amountTextview.apply {
+                text = root.context.getString(R.string.payment_amount, amount.formatPrice())
+                setTextColor(ResourcesCompat.getColor(root.resources, R.color.red10, null))
+            }
         }
     }
     
@@ -67,11 +72,14 @@ abstract class PaymentDomain {
     class UnknownTimeStamp(
         override val id: Int,
         override val title: String,
-        private val amount: String,
+        private val amount: Double,
     ) : IncorrectTimestamp() {
-        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
+        override fun bind(binding: BasePaymentItemBinding): Unit = with(binding) {
             titleTextview.text = title
-            amountTextview.text = amount
+            amountTextview.apply {
+                text = root.context.getString(R.string.payment_amount, amount.formatPrice())
+                setTextColor(ResourcesCompat.getColor(root.resources, R.color.red10, null))
+            }
         }
     }
     
@@ -91,13 +99,13 @@ abstract class PaymentDomain {
                 if (dto.amount == null || dto.amount == "") {
                     UnknownTimeStampAndAmount(dto.id, dto.title)
                 } else {
-                    UnknownTimeStamp(dto.id, dto.title, dto.amount!!)
+                    UnknownTimeStamp(dto.id, dto.title, dto.amount!!.toDouble())
                 }
             } else {
                 if (dto.amount == null || dto.amount == "") {
                     UnknownAmount(dto.id, dto.title, dto.created!!)
                 } else {
-                    Base(dto.id, dto.title, dto.created!!, dto.amount!!)
+                    Base(dto.id, dto.title, dto.created!!, dto.amount!!.toDouble())
                 }
             }
         }
