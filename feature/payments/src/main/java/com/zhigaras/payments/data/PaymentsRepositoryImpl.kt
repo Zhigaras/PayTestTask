@@ -2,7 +2,7 @@ package com.zhigaras.payments.data
 
 import com.zhigaras.cloudservice.CloudService
 import com.zhigaras.payments.domain.PaymentsRepository
-import com.zhigaras.payments.domain.PaymentDomain
+import com.zhigaras.payments.domain.model.PaymentDomain
 
 class PaymentsRepositoryImpl(private val cloudService: CloudService) : PaymentsRepository {
     

@@ -2,7 +2,7 @@ package com.zhigaras.payments.ui
 
 import androidx.viewbinding.ViewBinding
 import com.zhigaras.adapterdelegate.ListItem
-import com.zhigaras.payments.domain.PaymentDomain
+import com.zhigaras.payments.domain.model.PaymentDomain
 import com.zhigaras.payments.databinding.BasePaymentItemBinding
 import com.zhigaras.payments.databinding.DateDividerItemBinding
 

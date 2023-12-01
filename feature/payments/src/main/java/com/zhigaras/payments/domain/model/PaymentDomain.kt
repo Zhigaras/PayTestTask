@@ -1,4 +1,4 @@
-package com.zhigaras.payments.domain
+package com.zhigaras.payments.domain.model
 
 import com.zhigaras.cloudservice.model.PaymentDto
 import com.zhigaras.payments.R
@@ -23,7 +23,7 @@ abstract class PaymentDomain {
     abstract class CorrectTimeStamp : PaymentDomain() {
         
         abstract val created: Long
-        private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm") // TODO: format
+        private val formatter = DateTimeFormatter.ofPattern("dd MMM, EE")
         override fun isTimeStampKnown() = true
         
         fun formattedDay(): String = formatter.format(localDateTime())

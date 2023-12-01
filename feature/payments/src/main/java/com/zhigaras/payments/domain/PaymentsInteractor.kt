@@ -1,5 +1,6 @@
 package com.zhigaras.payments.domain
 
+import com.zhigaras.payments.domain.model.PaymentDomain
 import com.zhigaras.payments.ui.PaymentUi
 import com.zhigaras.payments.ui.PaymentsUiState
 import com.zhigaras.tokenstorage.TokenStorage
