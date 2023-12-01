@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="amount_stub">Обрабатывается</string>
+    <string name="amount_stub">Обработка</string>
     <string name="date_stub">Дата неизвестна</string>
 </resources>
