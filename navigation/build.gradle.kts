@@ -1,21 +1,18 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.com.android.library)
     alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.zhigaras.paytesttask"
+    namespace = "com.zhigaras.navigation"
     compileSdk = Config.compileSdk
     
     defaultConfig {
-        applicationId = "com.zhigaras.paytesttask"
         minSdk = Config.minSdk
-        targetSdk = Config.targetSdk
-        versionCode = Config.versionCode
-        versionName = Config.versionName
         
         testInstrumentationRunner = Config.testInstrumentationRunner
+        consumerProguardFiles("consumer-rules.pro")
     }
     
     buildTypes {
@@ -34,19 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = Config.jvmTarget
     }
-    buildFeatures { viewBinding = true }
 }
 
 dependencies {
+    
     implementation(project(":core"))
-    implementation(project(":navigation"))
-    implementation(project(":tokenStorage"))
+    implementation(project(":feature:login"))
+    implementation(project(":feature:payments"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.koin.android)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

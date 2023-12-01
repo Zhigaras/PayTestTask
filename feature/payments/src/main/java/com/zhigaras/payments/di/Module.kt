@@ -20,7 +20,7 @@ fun paymentsModule() = module {
         PaymentsFlowWrapper.Collect::class
     )
     
-    factory { PaymentsInteractor.Base(get()) } bind PaymentsInteractor::class
+    factory { PaymentsInteractor.Base(get(), get()) } bind PaymentsInteractor::class
     
     factory { PaymentsRepositoryImpl(get()) } bind PaymentsRepository::class
 }
