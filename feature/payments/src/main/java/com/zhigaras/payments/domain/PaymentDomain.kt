@@ -1,5 +1,8 @@
-package com.zhigaras.cloudservice.model
+package com.zhigaras.payments.domain
 
+import com.zhigaras.cloudservice.model.PaymentDto
+import com.zhigaras.payments.R
+import com.zhigaras.payments.databinding.BasePaymentItemBinding
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -11,6 +14,7 @@ abstract class PaymentDomain {
     protected abstract val title: String
     
     abstract fun isTimeStampKnown(): Boolean
+    abstract fun bind(binding: BasePaymentItemBinding)
     
     fun areItemsTheSame(other: PaymentDomain) = id == other.id
     
@@ -38,13 +42,23 @@ abstract class PaymentDomain {
         override val title: String,
         override val created: Long,
         private val amount: String
-    ) : CorrectTimeStamp()
+    ) : CorrectTimeStamp() {
+        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
+            titleTextview.text = title
+            amountTextview.text = amount
+        }
+    }
     
     class UnknownAmount(
         override val id: Int,
         override val title: String,
         override val created: Long
-    ) : CorrectTimeStamp()
+    ) : CorrectTimeStamp() {
+        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
+            titleTextview.text = title
+            amountTextview.text = root.context.getText(R.string.amount_stub)
+        }
+    }
     
     abstract class IncorrectTimestamp : PaymentDomain() {
         override fun isTimeStampKnown() = false
@@ -54,10 +68,38 @@ abstract class PaymentDomain {
         override val id: Int,
         override val title: String,
         private val amount: String,
-    ) : IncorrectTimestamp()
+    ) : IncorrectTimestamp() {
+        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
+            titleTextview.text = title
+            amountTextview.text = amount
+        }
+    }
     
     class UnknownTimeStampAndAmount(
         override val id: Int,
         override val title: String,
-    ) : IncorrectTimestamp()
+    ) : IncorrectTimestamp() {
+        override fun bind(binding: BasePaymentItemBinding) = with(binding) {
+            titleTextview.text = title
+            amountTextview.text = root.context.getText(R.string.amount_stub)
+        }
+    }
+    
+    companion object {
+        fun fromDto(dto: PaymentDto): PaymentDomain {
+            return if (dto.created == null) {
+                if (dto.amount == null || dto.amount == "") {
+                    UnknownTimeStampAndAmount(dto.id, dto.title)
+                } else {
+                    UnknownTimeStamp(dto.id, dto.title, dto.amount!!)
+                }
+            } else {
+                if (dto.amount == null || dto.amount == "") {
+                    UnknownAmount(dto.id, dto.title, dto.created!!)
+                } else {
+                    Base(dto.id, dto.title, dto.created!!, dto.amount!!)
+                }
+            }
+        }
+    }
 }

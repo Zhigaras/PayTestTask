@@ -1,12 +1,13 @@
 package com.zhigaras.payments.domain
 
-import com.zhigaras.cloudservice.model.PaymentDomain
 import com.zhigaras.payments.ui.PaymentUi
+import com.zhigaras.payments.ui.PaymentsUiState
 import com.zhigaras.tokenstorage.TokenStorage
+import kotlin.coroutines.cancellation.CancellationException
 
 interface PaymentsInteractor {
     
-    suspend fun getPayments(): List<PaymentUi>
+    suspend fun getPayments(): PaymentsUiState
     
     fun logout()
     
@@ -14,13 +15,22 @@ interface PaymentsInteractor {
         private val repository: PaymentsRepository,
         private val tokenStorage: TokenStorage
     ) : PaymentsInteractor {
-        override suspend fun getPayments(): List<PaymentUi> {
-            val source = repository.getPayments()
+        override suspend fun getPayments(): PaymentsUiState {
+            return try {
+                val source = repository.getPayments()
+                PaymentsUiState.Success(processList(source))
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                PaymentsUiState.Error(e.message ?: "Unknown error")
+            }
+        }
+        
+        private fun processList(source: List<PaymentDomain>): List<PaymentUi<*>> {
             val grouped = source.groupBy { it.isTimeStampKnown() }
             val sortedPart = grouped[true].orEmpty()
                 .map { it as PaymentDomain.CorrectTimeStamp }
                 .sortedBy { it.created }
-            val result = mutableListOf<PaymentUi>()
+            val result = mutableListOf<PaymentUi<*>>()
             var bufferedPayment: PaymentDomain.CorrectTimeStamp? = null
             sortedPart.forEachIndexed { index, payment ->
                 if (payment.isNextDay(bufferedPayment)) {

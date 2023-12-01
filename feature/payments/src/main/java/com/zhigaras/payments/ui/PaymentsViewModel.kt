@@ -17,7 +17,7 @@ class PaymentsViewModel(
         flowWrapper.post(PaymentsUiState.Loading())
         scopeLaunch(
             onBackground = { interactor.getPayments() },
-            onUi = { flowWrapper.post(PaymentsUiState.Success()) }
+            onUi = { flowWrapper.post(it) }
         )
     }
     
