@@ -1,4 +1,4 @@
-package com.zhigaras.payments.domain
+package com.zhigaras.payments.ui
 
 import com.zhigaras.core.UiState
 import com.zhigaras.payments.databinding.FragmentPaymentsBinding

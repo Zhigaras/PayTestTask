@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":cloudService"))
     implementation(project(":tokenStorage"))
+    implementation(project(":adapterDelegates"))
     
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)

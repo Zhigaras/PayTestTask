@@ -1,6 +1,7 @@
 package com.zhigaras.payments.domain
 
 import com.zhigaras.core.FlowWrapper
+import com.zhigaras.payments.ui.PaymentsUiState
 
 interface PaymentsFlowWrapper {
     

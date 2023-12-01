@@ -5,7 +5,6 @@ import com.zhigaras.core.Dispatchers
 import com.zhigaras.payments.domain.PaymentsFlowWrapper
 import com.zhigaras.payments.domain.PaymentsInteractor
 import com.zhigaras.payments.domain.PaymentsNavigation
-import com.zhigaras.payments.domain.PaymentsUiState
 
 class PaymentsViewModel(
     private val navigation: PaymentsNavigation,

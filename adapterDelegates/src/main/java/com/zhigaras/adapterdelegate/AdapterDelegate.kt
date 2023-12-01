@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class DelegateAdapter<M : ListItem, in VH : DelegateViewHolder<M>> {
+abstract class AdapterDelegate<M : ListItem, in VH : DelegateViewHolder<M>> {
     
     abstract fun viewType(): Int
     abstract fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder

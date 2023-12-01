@@ -12,6 +12,10 @@ abstract class PaymentDomain {
     
     abstract fun isTimeStampKnown(): Boolean
     
+    fun areItemsTheSame(other: PaymentDomain) = id == other.id
+    
+    fun areContentTheSame(other: PaymentDomain) = id == other.id && title == other.title
+    
     abstract class CorrectTimeStamp : PaymentDomain() {
         
         abstract val created: Long

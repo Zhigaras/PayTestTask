@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 class CompositeAdapter(
-    private val delegates: Map<Int, DelegateAdapter<ListItem, DelegateViewHolder<ListItem>>>
+    private val delegates: Map<Int, AdapterDelegate<ListItem, DelegateViewHolder<ListItem>>>
 ) : ListAdapter<ListItem, RecyclerView.ViewHolder>(DelegateDiffUtilCallback()) {
     
     override fun getItemViewType(position: Int): Int {
@@ -43,11 +43,11 @@ class CompositeAdapter(
     class Builder {
         
         private val delegates =
-            mutableMapOf<Int, DelegateAdapter<ListItem, DelegateViewHolder<ListItem>>>()
+            mutableMapOf<Int, AdapterDelegate<ListItem, DelegateViewHolder<ListItem>>>()
         
-        fun addAdapter(adapter: DelegateAdapter<out ListItem, *>): Builder {
+        fun addDelegate(adapter: AdapterDelegate<out ListItem, *>): Builder {
             delegates[adapter.viewType()] =
-                adapter as DelegateAdapter<ListItem, DelegateViewHolder<ListItem>>
+                adapter as AdapterDelegate<ListItem, DelegateViewHolder<ListItem>>
             return this
         }
         
