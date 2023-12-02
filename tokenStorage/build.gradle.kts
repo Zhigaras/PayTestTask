@@ -37,4 +37,5 @@ dependencies {
     
     implementation(libs.androidx.ktx)
     implementation(libs.koin.android)
+    implementation(libs.security.crypto)
 }
