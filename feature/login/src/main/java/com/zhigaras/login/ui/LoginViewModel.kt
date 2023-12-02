@@ -2,13 +2,14 @@ package com.zhigaras.login.ui
 
 import com.zhigaras.core.BaseViewModel
 import com.zhigaras.core.Dispatchers
-import com.zhigaras.core.Navigation
 import com.zhigaras.login.domain.LoginFlowWrapper
 import com.zhigaras.login.domain.LoginInteractor
-import com.zhigaras.login.domain.LoginUiState
+import com.zhigaras.login.domain.LoginNavigation
+import com.zhigaras.tokenstorage.TokenStorage
 
 class LoginViewModel(
-    private val navigation: Navigation,
+    private val tokenStorage: TokenStorage,
+    private val navigation: LoginNavigation,
     private val interactor: LoginInteractor,
     override val flowWrapper: LoginFlowWrapper.Mutable,
     dispatchers: Dispatchers
@@ -18,7 +19,7 @@ class LoginViewModel(
         flowWrapper.post(LoginUiState.Loading())
         scopeLaunch(
             onBackground = { interactor.login(login, password) },
-            onUi = { it.handle(flowWrapper, navigation) }
+            onUi = { it.handle(flowWrapper, navigation, tokenStorage) }
         )
     }
 }

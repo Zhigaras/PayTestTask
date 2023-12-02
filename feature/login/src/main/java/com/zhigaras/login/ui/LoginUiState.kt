@@ -1,9 +1,10 @@
-package com.zhigaras.login.domain
+package com.zhigaras.login.ui
 
 import android.view.View
-import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import com.zhigaras.core.UiState
 import com.zhigaras.login.databinding.FragmentLoginBinding
+import com.zhigaras.payments.R
 
 interface LoginUiState : UiState<FragmentLoginBinding> {
     
@@ -28,7 +29,10 @@ interface LoginUiState : UiState<FragmentLoginBinding> {
         
         override val block: FragmentLoginBinding.() -> Unit = {
             progressBar.root.visibility = View.GONE
-            Toast.makeText(root.context, message, Toast.LENGTH_SHORT).show()
+            Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE).apply {
+                setAction(root.context.getString(R.string.close)) { dismiss() }
+                show()
+            }
         }
     }
 }

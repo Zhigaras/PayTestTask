@@ -7,4 +7,6 @@ interface TokenStorage {
     fun getToken(): Token
     
     fun isLoggedIn(): Boolean
+    
+    fun removeToken()
 }

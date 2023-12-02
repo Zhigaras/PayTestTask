@@ -1,21 +1,34 @@
 package com.zhigaras.login.domain
 
-import com.zhigaras.core.Navigation
+import com.zhigaras.login.ui.LoginUiState
+import com.zhigaras.tokenstorage.TokenStorage
 
 interface LoginResult {
     
-    fun handle(flowWrapper: LoginFlowWrapper.Post, navigation: Navigation)
+    fun handle(
+        flowWrapper: LoginFlowWrapper.Post,
+        navigation: LoginNavigation,
+        tokenStorage: TokenStorage
+    )
     
     class Success(private val token: String) : LoginResult {
-        override fun handle(flowWrapper: LoginFlowWrapper.Post, navigation: Navigation) {
-            // TODO: save token
+        override fun handle(
+            flowWrapper: LoginFlowWrapper.Post,
+            navigation: LoginNavigation,
+            tokenStorage: TokenStorage
+        ) {
+            tokenStorage.save(token)
             flowWrapper.post(LoginUiState.Success())
-            // TODO: navigate
+            navigation.fromLoginToPayments()
         }
     }
     
     class Error(private val message: String) : LoginResult {
-        override fun handle(flowWrapper: LoginFlowWrapper.Post, navigation: Navigation) {
+        override fun handle(
+            flowWrapper: LoginFlowWrapper.Post,
+            navigation: LoginNavigation,
+            tokenStorage: TokenStorage
+        ) {
             flowWrapper.post(LoginUiState.Error(message))
         }
     }

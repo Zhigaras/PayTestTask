@@ -8,10 +8,11 @@ import com.zhigaras.login.domain.LoginRepository
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 import com.zhigaras.login.ui.LoginViewModel
+import com.zhigaras.payments.di.paymentsModule
 import org.koin.dsl.bind
 import org.koin.dsl.binds
 
-fun loginModule() = cloudServiceModule() + module {
+fun loginModule() = cloudServiceModule() + paymentsModule() + module {
     
     viewModelOf(::LoginViewModel)
     
