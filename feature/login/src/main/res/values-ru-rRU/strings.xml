@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_input_error">Логин слошком короткий</string>
+    <string name="password_input_error">Пароль слошком короткий</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="password_support_text">Пароль должен состоять минимум из 5 символов</string>
+    <string name="enter">Войти</string>
+</resources>

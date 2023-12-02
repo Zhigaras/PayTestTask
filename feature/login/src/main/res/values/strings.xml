@@ -1,0 +1,8 @@
+<resources>
+    <string name="login_input_error">Login is too short</string>
+    <string name="password_input_error">Password is too short</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="password_support_text">Password must be at least 5 characters long</string>
+    <string name="enter">Enter</string>
+</resources>
