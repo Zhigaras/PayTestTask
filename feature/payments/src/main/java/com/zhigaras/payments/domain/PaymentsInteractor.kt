@@ -1,7 +1,6 @@
 package com.zhigaras.payments.domain
 
 import com.zhigaras.core.ManageResources
-import com.zhigaras.payments.R
 import com.zhigaras.payments.domain.model.PaymentDomain
 import com.zhigaras.payments.ui.PaymentUi
 import com.zhigaras.payments.ui.PaymentsUiState
@@ -22,28 +21,18 @@ interface PaymentsInteractor {
         override suspend fun getPayments(): PaymentsUiState {
             return try {
                 val source = repository.getPayments()
-                PaymentsUiState.Success(processList(source), source.sumOf { it.amount.amount() })
+                PaymentsUiState.Success(processPayments(source), source.sumOf { it.amount.amount() })
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 PaymentsUiState.Error(e.message ?: "Unknown error")
             }
         }
         
-        private fun processList(source: List<PaymentDomain>): List<PaymentUi<*>> {
-            val grouped = source.groupBy { it.isTimeStampKnown() }
-            val firstPart = grouped[true].orEmpty()
-            val result = mutableListOf<PaymentUi<*>>()
-            var bufferedPayment: PaymentDomain? = null
-            firstPart.forEach { payment ->
-                if (payment.isNextDay(bufferedPayment)) {
-                    bufferedPayment = payment
-                    result.add(PaymentUi.Divider(payment.formattedDay(resources)))
+        private fun processPayments(source: List<PaymentDomain>): List<PaymentUi<*>> {
+            return source.groupBy { it.formattedDay(resources) }
+                .flatMap { (created, list) ->
+                    listOf(PaymentUi.Divider(created)) + list.map { PaymentUi.Base(it) }
                 }
-                result.add(PaymentUi.Base(payment))
-            }
-            result.add(PaymentUi.Divider(resources.getString(R.string.date_stub)))
-            result.addAll(grouped[false].orEmpty().map { PaymentUi.Base(it) })
-            return result
         }
         
         override fun logout() {
