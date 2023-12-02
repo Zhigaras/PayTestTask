@@ -3,4 +3,5 @@
     <string name="amount_stub">Обработка</string>
     <string name="date_stub">Дата неизвестна</string>
     <string name="total">Всего</string>
+    <string name="close">Закрыть</string>
 </resources>

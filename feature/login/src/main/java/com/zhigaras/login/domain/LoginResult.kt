@@ -1,5 +1,6 @@
 package com.zhigaras.login.domain
 
+import com.zhigaras.login.ui.LoginUiState
 import com.zhigaras.tokenstorage.TokenStorage
 
 interface LoginResult {

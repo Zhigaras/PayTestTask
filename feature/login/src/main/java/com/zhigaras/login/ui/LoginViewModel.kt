@@ -5,7 +5,6 @@ import com.zhigaras.core.Dispatchers
 import com.zhigaras.login.domain.LoginFlowWrapper
 import com.zhigaras.login.domain.LoginInteractor
 import com.zhigaras.login.domain.LoginNavigation
-import com.zhigaras.login.domain.LoginUiState
 import com.zhigaras.tokenstorage.TokenStorage
 
 class LoginViewModel(

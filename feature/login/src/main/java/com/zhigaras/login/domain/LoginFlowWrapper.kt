@@ -1,6 +1,7 @@
 package com.zhigaras.login.domain
 
 import com.zhigaras.core.FlowWrapper
+import com.zhigaras.login.ui.LoginUiState
 
 interface LoginFlowWrapper {
     
