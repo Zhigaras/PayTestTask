@@ -27,6 +27,7 @@ class PaymentsFragment : BaseFragment<FragmentPaymentsBinding>() {
         binding.recyclerView.addItemDecoration(MarginItemDecoration(28))
         binding.recyclerView.adapter = adapter
         binding.logoutButton.setOnClickListener { viewModel.logout() }
+        binding.errorStub.retryButton.setOnClickListener { viewModel.loadPayments() }
         viewModel.loadPayments()
         viewModel.scopeCollect {
             it.update(binding)

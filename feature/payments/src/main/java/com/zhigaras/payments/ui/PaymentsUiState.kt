@@ -1,7 +1,6 @@
 package com.zhigaras.payments.ui
 
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import com.zhigaras.adapterdelegate.CompositeAdapter
 import com.zhigaras.core.UiState
 import com.zhigaras.core.formatPrice
@@ -17,6 +16,7 @@ interface PaymentsUiState : UiState<FragmentPaymentsBinding> {
     class Loading : PaymentsUiState {
         override fun update(binding: FragmentPaymentsBinding) = with(binding) {
             progressBar.root.visibility = View.VISIBLE
+            errorStub.root.visibility = View.GONE
         }
     }
     
@@ -30,18 +30,17 @@ interface PaymentsUiState : UiState<FragmentPaymentsBinding> {
                 root.context.getString(R.string.payment_amount, totalAmount.formatPrice())
             payload.visibility = View.VISIBLE
             progressBar.root.visibility = View.GONE
+            errorStub.root.visibility = View.GONE
         }
     }
     
-    class Error(private val message: String) : UiState.SingleEvent<FragmentPaymentsBinding>(),
-        PaymentsUiState {
+    class Error(private val message: String) : PaymentsUiState {
         
-        override val block: FragmentPaymentsBinding.() -> Unit = {
+        override fun update(binding: FragmentPaymentsBinding) = with(binding) {
             progressBar.root.visibility = View.GONE
-            Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE).apply {
-                setAction(root.context.getString(R.string.close)) { dismiss() }
-                show()
-            }
+            payload.visibility = View.GONE
+            errorStub.root.visibility = View.VISIBLE
+            errorStub.errorTextView.text = message
         }
     }
 }

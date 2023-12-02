@@ -9,6 +9,11 @@
         layout="@layout/progress_layout"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/error_stub"
+        layout="@layout/error_stub"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/payload"
         android:layout_width="match_parent"
