@@ -1,7 +1,7 @@
 package com.zhigaras.tokenstorage.di
 
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import com.zhigaras.tokenstorage.TokenStorage
 import com.zhigaras.tokenstorage.TokenStorageImpl
 import org.koin.android.ext.koin.androidApplication
@@ -13,11 +13,13 @@ fun tokenStorageModule() = module {
     factory { TokenStorageImpl(get()) } bind TokenStorage::class
     
     single {
-        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        val masterKey = MasterKey.Builder(androidApplication())
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
         EncryptedSharedPreferences.create(
-            "tokenStorage",
-            masterKeyAlias,
             androidApplication(),
+            "tokenStorage",
+            masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
