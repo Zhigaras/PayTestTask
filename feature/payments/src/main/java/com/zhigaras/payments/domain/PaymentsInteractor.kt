@@ -21,7 +21,9 @@ interface PaymentsInteractor {
         override suspend fun getPayments(): PaymentsUiState {
             return try {
                 val source = repository.getPayments()
-                PaymentsUiState.Success(processPayments(source), source.sumOf { it.amount.amount() })
+                PaymentsUiState.Success(
+                    processPayments(source),
+                    source.sumOf { it.amount.amount() })
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 PaymentsUiState.Error(e.message ?: "Unknown error")
@@ -31,7 +33,8 @@ interface PaymentsInteractor {
         private fun processPayments(source: List<PaymentDomain>): List<PaymentUi<*>> {
             return source.groupBy { it.formattedDay(resources) }
                 .flatMap { (created, list) ->
-                    listOf(PaymentUi.Divider(created)) + list.map { PaymentUi.Base(it) }
+                    listOf(PaymentUi.Divider(created, list.sumOf { it.amount.amount() })) +
+                            list.map { PaymentUi.Base(it) }
                 }
         }
         
