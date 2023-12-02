@@ -1,6 +1,7 @@
 package com.zhigaras.login.ui
 
 import android.view.View
+import androidx.core.animation.doOnEnd
 import com.google.android.material.snackbar.Snackbar
 import com.zhigaras.core.UiState
 import com.zhigaras.login.databinding.FragmentLoginBinding
@@ -18,9 +19,12 @@ interface LoginUiState : UiState<FragmentLoginBinding> {
         }
     }
     
-    class Success : LoginUiState {
+    class Success(private val navigate: () -> Unit) : LoginUiState {
         override fun update(binding: FragmentLoginBinding) = with(binding) {
             progressBar.root.visibility = View.GONE
+            payload.visibility = View.GONE
+            greetingView.root.visibility = View.VISIBLE
+            greetingView.root.addAnimatorUpdateListener { it.doOnEnd { navigate.invoke() } }
         }
     }
     

@@ -18,8 +18,7 @@ interface LoginResult {
             tokenStorage: TokenStorage
         ) {
             tokenStorage.save(token)
-            flowWrapper.post(LoginUiState.Success())
-            navigation.fromLoginToPayments()
+            flowWrapper.post(LoginUiState.Success { navigation.fromLoginToPayments() })
         }
     }
     

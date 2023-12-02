@@ -25,10 +25,11 @@ interface PaymentsUiState : UiState<FragmentPaymentsBinding> {
         private val totalAmount: Double
     ) : PaymentsUiState {
         override fun update(binding: FragmentPaymentsBinding) = with(binding) {
-            progressBar.root.visibility = View.GONE
             (recyclerView.adapter as CompositeAdapter).submitList(list)
             totalAmountTextView.text =
                 root.context.getString(R.string.payment_amount, totalAmount.formatPrice())
+            payload.visibility = View.VISIBLE
+            progressBar.root.visibility = View.GONE
         }
     }
     

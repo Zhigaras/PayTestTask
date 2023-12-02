@@ -5,11 +5,17 @@
     android:layout_height="match_parent">
 
     <include
+        android:id="@+id/greeting_view"
+        layout="@layout/greeting_layout"
+        android:visibility="gone" />
+
+    <include
         android:id="@+id/progress_bar"
         layout="@layout/progress_layout"
         android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/payload"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"

@@ -10,11 +10,13 @@
         android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/payload"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/logout_button"
